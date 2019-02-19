@@ -1,6 +1,6 @@
 <?php
 
-namespace leandrogehlen\treegrid;
+namespace r0m1g0\treegrid;
 
 use yii\web\AssetBundle;
 

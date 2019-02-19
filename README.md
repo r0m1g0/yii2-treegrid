@@ -4,8 +4,8 @@ This is the [jQuery TreeGrid](https://github.com/maxazan/jquery-treegrid) extens
 and thus makes using TreeGrid component in Yii applications extremely easy
 
 [![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](http://www.yiiframework.com/)
-[![Latest Stable Version](https://poser.pugx.org/leandrogehlen/yii2-treegrid/v/stable.png)](https://packagist.org/packages/leandrogehlen/yii2-treegrid)
-[![Total Downloads](https://poser.pugx.org/leandrogehlen/yii2-treegrid/downloads.png)](https://packagist.org/packages/leandrogehlen/yii2-treegrid)
+[![Latest Stable Version](https://poser.pugx.org/r0m1g0/yii2-treegrid/v/stable.png)](https://packagist.org/packages/r0m1g0/yii2-treegrid)
+[![Total Downloads](https://poser.pugx.org/r0m1g0/yii2-treegrid/downloads.png)](https://packagist.org/packages/r0m1g0/yii2-treegrid)
 
 ## Installation
 
@@ -14,13 +14,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist leandrogehlen/yii2-treegrid "*"
+php composer.phar require --prefer-dist r0m1g0/yii2-treegrid "*"
 ```
 
 or add
 
 ```
-"leandrogehlen/yii2-treegrid": "*"
+"r0m1g0/yii2-treegrid": "*"
 ```
 
 to the require section of your `composer.json` file.
@@ -93,7 +93,7 @@ class TreeController extends Controller
 **View**
 
 ```php
-use leandrogehlen\treegrid\TreeGrid;
+use r0m1g0\treegrid\TreeGrid;
   
 <?= TreeGrid::widget([
     'dataProvider' => $dataProvider,
@@ -129,7 +129,7 @@ $config = [
   ...
 ]
 
-Yii::$container->set('leandrogehlen\treegrid\TreeGridAsset',[
+Yii::$container->set('r0m1g0\treegrid\TreeGridAsset',[
     'js' => [
         'js/jquery.cookie.js',
         'js/jquery.treegrid.min.js',
