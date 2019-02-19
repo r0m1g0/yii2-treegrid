@@ -2,14 +2,14 @@
 
 namespace leandrogehlen\treegrid;
 
-use Yii;
 use Closure;
-use yii\base\Widget;
+use Yii;
 use yii\base\InvalidConfigException;
+use yii\base\Widget;
 use yii\grid\DataColumn;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use yii\helpers\ArrayHelper;
 use yii\i18n\Formatter;
 
 /**
@@ -19,10 +19,10 @@ use yii\i18n\Formatter;
  * @see https://github.com/maxazan/jquery-treegrid
  * @author Leandro Gehlen <leandrogehlen@gmail.com>
  */
-class TreeGrid extends Widget
-{
+class TreeGrid extends Widget {
+
     /**
-     * @var \yii\data\DataProviderInterface|\yii\data\BaseDataProvider the data provider for the view. This property is required.
+     * @var \yii\data\DataProviderInterface the data provider for the view. This property is required.
      */
     public $dataProvider;
 
@@ -72,15 +72,15 @@ class TreeGrid extends Widget
     public $emptyTextOptions = ['class' => 'empty'];
 
     /**
-     * @var bool whether to show the header section of the grid table.
+     * @var boolean whether to show the header section of the grid table.
      */
     public $showHeader = true;
     /**
-     * @var bool whether to show the footer section of the grid table.
+     * @var boolean whether to show the footer section of the grid table.
      */
     public $showFooter = false;
     /**
-     * @var bool whether to show the grid view if [[dataProvider]] returns no data.
+     * @var boolean whether to show the grid view if [[dataProvider]] returns no data.
      */
     public $showOnEmpty = true;
 
@@ -190,6 +190,7 @@ class TreeGrid extends Widget
 
         $view = $this->getView();
         TreeGridAsset::register($view);
+        JqueryCookieAsset::register($view);
 
         $view->registerJs("jQuery('#$id').treegrid($options);");
 
@@ -293,13 +294,9 @@ class TreeGrid extends Widget
     public function renderItems()
     {
         $rows = [];
-        $this->dataProvider->setKeys([]);
         $models = array_values($this->dataProvider->getModels());
-        $models = $this->normalizeData($models, $this->parentRootValue);
-        $this->dataProvider->setModels($models);
-        $this->dataProvider->setKeys(null);
-        $this->dataProvider->prepare();
         $keys = $this->dataProvider->getKeys();
+        $models = $this->normalizeData($models,$this->parentRootValue);
         foreach ($models as $index => $model) {
             $key = $keys[$index];
             if ($this->beforeRow !== null) {
@@ -340,7 +337,7 @@ class TreeGrid extends Widget
                 $column = $this->createDataColumn($column);
             } else {
                 $column = Yii::createObject(array_merge([
-                    'class' => $this->dataColumnClass ? : TreeColumn::className(),
+                    'class' => $this->dataColumnClass ? : TreeColumn::class,
                     'grid' => $this,
                 ], $column));
             }
@@ -365,7 +362,7 @@ class TreeGrid extends Widget
         }
 
         return Yii::createObject([
-            'class' => $this->dataColumnClass ? : TreeColumn::className(),
+            'class' => $this->dataColumnClass ? : TreeColumn::class,
             'grid' => $this,
             'attribute' => $matches[1],
             'format' => isset($matches[3]) ? $matches[3] : 'text',
@@ -397,9 +394,9 @@ class TreeGrid extends Widget
     protected function normalizeData(array $data, $parentId = null) {
         $result = [];
         foreach ($data as $element) {
-            if (ArrayHelper::getValue($element, $this->parentColumnName) == $parentId) {
+            if ($element[$this->parentColumnName] == $parentId) {
                 $result[] = $element;
-                $children = $this->normalizeData($data, ArrayHelper::getValue($element, $this->keyColumnName));
+                $children = $this->normalizeData($data, $element[$this->keyColumnName]);
                 if ($children) {
                     $result = array_merge($result, $children);
                 }
@@ -407,4 +404,5 @@ class TreeGrid extends Widget
         }
         return $result;
     }
-}
+
+} 
